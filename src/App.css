@@ -148,6 +148,7 @@
     animation:gradientMove 12s linear infinite;
 
     -webkit-background-clip:text;
+    background-clip:text;
 
     -webkit-text-fill-color:transparent;
 
@@ -1230,6 +1231,7 @@
         );
 
     -webkit-background-clip:text;
+    background-clip:text;
 
     -webkit-text-fill-color:transparent;
 
@@ -2380,6 +2382,7 @@
         );
 
     -webkit-background-clip:text;
+    background-clip:text;
 
     -webkit-text-fill-color:transparent;
 
