@@ -1836,3 +1836,44 @@ body .noise{
     }
 
 }
+
+
+/* =========================================
+   🔥 FIX TOMBOL TIDAK BISA DIKLIK (WAJIB)
+========================================= */
+
+button {
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+/* MATIKAN INTERAKSI PSEUDO ELEMENT YANG NUTUP CLICK */
+.upload-section::before,
+.upload-section::after,
+.drop-zone::before,
+.drop-zone::after,
+.guide-btn::before,
+.choose-btn::before,
+.analyze-btn::before,
+.actions button::before,
+.stat-card::before,
+.stat-card::after,
+.result-panel::before,
+.modal-box::before,
+.modal-box::after,
+.user-item::before,
+.guide-card::before {
+    pointer-events: none;
+}
+
+/* pastikan container tidak blocking klik */
+.upload-section,
+.drop-zone {
+    position: relative;
+    z-index: 1;
+}

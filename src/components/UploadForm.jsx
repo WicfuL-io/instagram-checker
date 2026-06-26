@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 
 function UploadForm({ onUpload, loading, openGuide }) {
   const inputRef = useRef(null);
-
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFile = (file) => {
@@ -22,7 +21,6 @@ function UploadForm({ onUpload, loading, openGuide }) {
 
   const handleDrop = (e) => {
     e.preventDefault();
-
     handleFile(e.dataTransfer.files[0]);
   };
 
@@ -43,6 +41,7 @@ function UploadForm({ onUpload, loading, openGuide }) {
     <div className="upload-section">
 
       <button
+        type="button"
         className="guide-btn"
         onClick={openGuide}
       >
@@ -54,16 +53,13 @@ function UploadForm({ onUpload, loading, openGuide }) {
         onDrop={handleDrop}
         onDragOver={handleDrag}
       >
-
         <h3>Upload Instagram ZIP</h3>
 
-        <p>
-          Drag & Drop file ZIP ke sini
-        </p>
-
+        <p>Drag & Drop file ZIP ke sini</p>
         <p>atau</p>
 
         <button
+          type="button"
           className="choose-btn"
           onClick={() => inputRef.current.click()}
         >
@@ -80,30 +76,23 @@ function UploadForm({ onUpload, loading, openGuide }) {
 
         {selectedFile && (
           <div className="selected-file">
-
             <strong>File:</strong>
-
             <br />
-
             {selectedFile.name}
-
             <br />
-
             {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-
           </div>
         )}
-
       </div>
 
       <button
+        type="button"
         className="analyze-btn"
         onClick={analyze}
         disabled={loading}
       >
         {loading ? "Processing..." : "Analyze"}
       </button>
-
     </div>
   );
 }
