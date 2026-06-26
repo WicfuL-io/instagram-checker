@@ -54,11 +54,9 @@
 
     position:relative;
 
-    width:min(1400px,92%);
-
-    margin:auto;
-
-    padding:70px 0 90px;
+    width:min(1280px,100%);
+    margin:0 auto;
+    padding:40px 16px;
 
     z-index:2;
 
@@ -203,7 +201,7 @@
 
         );
 
-    filter:blur(70px);
+    filter:blur(25px);
 
     z-index:-1;
 
@@ -235,7 +233,7 @@
 
         );
 
-    backdrop-filter:blur(25px);
+    backdrop-filter:blur(10px);
 
     border:1px solid rgba(255,255,255,.08);
 
@@ -1051,7 +1049,7 @@
             rgba(255,255,255,.03)
         );
 
-    backdrop-filter:blur(25px);
+    backdrop-filter:blur(10px);
 
     border:1px solid rgba(255,255,255,.08);
 
@@ -1090,7 +1088,7 @@
             transparent 70%
         );
 
-    filter:blur(35px);
+    filter:blur(15px);
 
     transition:.4s;
 
@@ -1487,11 +1485,82 @@
 
     align-items:center;
 
-    padding:35px;
+    padding:10px;
 
     z-index:9999;
 
     animation:fadeIn .35s;
+
+}
+
+@media(max-width:768px){
+
+.modal-box{
+
+    width:100%;
+    max-height:95vh;
+    border-radius:18px;
+
+}
+
+.modal-header{
+
+    padding:18px;
+
+}
+
+.modal-tools{
+
+    flex-direction:column;
+    padding:18px;
+
+}
+
+.user-list{
+
+    padding:18px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.guide-content{
+
+    width:100%;
+    border-radius:18px;
+
+}
+
+.guide-header{
+
+    padding:20px;
+
+}
+
+.guide-grid{
+
+    padding:20px;
+    grid-template-columns:1fr;
+
+}
+
+.guide-card{
+
+    padding:18px;
+
+}
+
+.guide-tip{
+
+    margin:20px;
+}
+
+.guide-footer{
+
+    padding:20px;
+}
 
 }
 
@@ -1523,7 +1592,7 @@
             rgba(12,17,32,.98)
         );
 
-    backdrop-filter:blur(25px);
+    backdrop-filter:blur(10px);
 
     border:1px solid rgba(255,255,255,.08);
 
@@ -2271,7 +2340,7 @@
 
     border:1px solid rgba(255,255,255,.08);
 
-    backdrop-filter:blur(25px);
+    backdrop-filter:blur(10px);
 
     box-shadow:
 
@@ -2631,12 +2700,18 @@
 .result-dashboard{
 
     display:grid;
-
     grid-template-columns:2fr 1fr;
+    gap:24px;
 
-    gap:32px;
+}
 
-    margin-top:50px;
+@media(max-width:900px){
+
+.result-dashboard{
+
+    grid-template-columns:1fr;
+
+}
 
 }
 
@@ -3487,5 +3562,95 @@ table tr:hover{
         font-size:14px;
 
     }
+
+}
+
+@media (max-width:768px){
+
+    .container{
+        width:100%;
+        padding:20px 15px;
+    }
+
+    .header{
+        margin-bottom:35px;
+    }
+
+    .header h1{
+        font-size:2rem;
+        line-height:1.2;
+    }
+
+    .header p{
+        font-size:15px;
+    }
+
+    .upload-section{
+        padding:20px;
+        border-radius:20px;
+    }
+
+    .drop-zone{
+        min-height:200px;
+        padding:25px 15px;
+    }
+
+    .drop-zone h3{
+        font-size:20px;
+    }
+
+    .drop-zone p{
+        font-size:14px;
+    }
+
+    .guide-btn,
+    .choose-btn,
+    .analyze-btn{
+
+        width:100%;
+    }
+
+    .guide-btn{
+        align-self:stretch;
+    }
+
+}
+
+@media(max-width:768px){
+
+*{
+
+    animation:none !important;
+    transition:.2s !important;
+
+}
+
+body::before,
+body::after,
+
+.upload-section::before,
+.upload-section::after,
+
+.drop-zone::before,
+
+.result-panel::before,
+
+.modal-box::before,
+.modal-box::after{
+
+    display:none;
+
+}
+
+}
+
+@media (hover:none){
+
+*:hover{
+
+    transform:none !important;
+    box-shadow:none !important;
+
+}
 
 }

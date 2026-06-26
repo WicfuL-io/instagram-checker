@@ -48,10 +48,10 @@ function GuideModal({ open, onClose }) {
 
                             <p>
                                 Masuk ke aplikasi Instagram kemudian buka
-                                halaman <b>Profil</b>, tekan ikon
-                                <b> ☰ </b>
+                                halaman <b> ( Profil )</b>, tekan ikon
+                                <b> ( ☰ ) </b>
                                 di kanan atas lalu masuk ke
-                                <b> Account Center</b>.
+                                <b> ( Account Center )</b>.
                             </p>
 
                         </div>
@@ -67,14 +67,16 @@ function GuideModal({ open, onClose }) {
 
                             <p>
                                 Pilih menu
-                                <b> Your Information and Permissions</b>,
+                                <b> ( Your Information and Permissions )</b>,
                                 kemudian tekan
-                                <b> Download Your Information</b>.
+                                <b> ( Export Your Information )</b>.
                             </p>
 
                             <p>
-                                Selanjutnya pilih
-                                <b> Create Export</b>.
+                                Tekan Tombol
+                                <b> ( Create Export )</b>,
+                                pilih acount instagram anda 
+                                <b> ( Export To Device )</b>.
                             </p>
 
                         </div>
@@ -89,14 +91,14 @@ function GuideModal({ open, onClose }) {
                             <h3>Konfigurasi Export</h3>
 
                             <ul>
-                                <li>✔ Pilih akun Instagram</li>
 
-                                <li>✔ Export to Device</li>
+                                <li>✔ Uncheck Semua Dahulu</li>
 
-                                <li>
-                                    ✔ Customize Information →
-                                    <b> followers_and_following</b>
-                                </li>
+                                <ul>
+                                    <li>✔ Customize Information</li>
+                                    <li> →<i> ✔ Uncheck Semua Dahulu</i></li>
+                                    <li> → pilih:<b> followers_and_following</b></li>
+                                </ul>
 
                                 <li>✔ Date Range : All Time</li>
 
@@ -125,7 +127,7 @@ function GuideModal({ open, onClose }) {
 
                             <p>
                                 Setelah tombol
-                                <b> Download</b>
+                                <b> ( Download ) </b>
                                 muncul, unduh file ZIP tersebut.
                             </p>
 
@@ -156,19 +158,15 @@ function GuideModal({ open, onClose }) {
                             </li>
 
                             <li>
-                                Jangan mengubah nama file ZIP.
-                            </li>
-
-                            <li>
-                                Pastikan hanya memilih data
-                                <b> followers_and_following</b>
-                                agar ukuran file lebih kecil.
+                                Pastikan di dalam file hanya ada file dengan nama
+                                <b> ( followers_and_following ) </b>
+                                agar tidak terjadi kesalahan, karena hanya file itu yang di butuhkan.
                             </li>
 
                             <li>
                                 Jika proses export belum selesai,
                                 tunggu hingga Instagram mengirimkan
-                                notifikasi download.
+                                notifikasi download biasanya berada pada email notifikasi yang anda pilih.
                             </li>
 
                         </ul>
