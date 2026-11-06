@@ -1,165 +1,225 @@
 import { useState } from "react";
-import { parseInstagramZip } from "./utils/instagramParser";
 
-import UploadForm from "./components/UploadForm";
-import StatsCards from "./components/StatsCards";
-import ResultModal from "./components/ResultModal";
-import GuideModal from "./components/GuideModal";
-import Footer from "./components/Footer";
+import {
+  Menu,
+  FileArchive,
+  Check,
+  X
+} from "lucide-react";
 
-function App() {
-  const [stats, setStats] = useState(null);
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import UploadArea from "./components/UploadArea";
+
+import Dashboard from "./pages/Dashboard";
+import Followers from "./pages/Followers";
+import Messages from "./pages/Messages";
+import Interactions from "./pages/Interactions";
+import Content from "./pages/Content";
+import Saved from "./pages/Saved";
+import ActivityPage from "./pages/Activity";
+import Privacy from "./pages/Privacy";
+
+import { parseInstagramZip } from "./services/instagramParser";
+import { formatDate, formatFileSize } from "./utils/format";
+
+const pageNames = {
+  overview: "Dashboard",
+  followers: "Followers & Following",
+  unfollow: "Follow Back",
+  messages: "Messages",
+  interactions: "Interactions",
+  content: "Content",
+  saved: "Saved",
+  activity: "Activity",
+  privacy: "Privacy"
+};
+
+export default function App() {
+  const [page, setPage] = useState("overview");
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const [file, setFile] = useState(null);
+  const [report, setReport] = useState(null);
 
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [progressText, setProgressText] = useState("");
 
   const [error, setError] = useState("");
 
-  const [modal, setModal] = useState("");
-
-  const openModal = (name) => setModal(name);
-
-  const closeModal = () => setModal("");
-
-  const handleUpload = async (file) => {
+  async function handleAnalyze() {
     if (!file) return;
 
     setLoading(true);
-
     setError("");
 
     try {
-      const result = await parseInstagramZip(file);
+      const result = await parseInstagramZip(file, (value, message) => {
+        setProgress(value);
+        setProgressText(message);
+      });
 
-      setStats(result);
+      setReport(result);
+      setPage("overview");
     } catch (err) {
-      console.error(err);
-
-      setError(
-        "ZIP tidak valid atau bukan file export Instagram."
-      );
+      setError(err.message || "Gagal membaca arsip Instagram.");
+    } finally {
+      setLoading(false);
     }
+  }
 
-    setLoading(false);
-  };
+  function clearReport() {
+    setReport(null);
+    setFile(null);
+    setPage("overview");
+    setProgress(0);
+  }
+
+  function renderPage() {
+    if (!report) return null;
+
+    switch (page) {
+      case "overview":
+        return (
+          <Dashboard
+            report={report}
+            setPage={setPage}
+          />
+        );
+
+      case "followers":
+        return <Followers report={report} />;
+
+      case "unfollow":
+        return (
+          <Followers
+            report={{
+              ...report,
+              followers: report.followers,
+              following: report.following,
+              mutual: report.mutual
+            }}
+            initialTab="notback"
+          />
+        );
+
+      case "messages":
+        return <Messages report={report} />;
+
+      case "interactions":
+        return <Interactions report={report} />;
+
+      case "content":
+        return <Content report={report} />;
+
+      case "saved":
+        return <Saved report={report} />;
+
+      case "activity":
+        return <ActivityPage report={report} />;
+
+      case "privacy":
+        return (
+          <Privacy
+            report={report}
+            onClear={clearReport}
+          />
+        );
+
+      default:
+        return <Dashboard report={report} setPage={setPage} />;
+    }
+  }
 
   return (
-    <div className="container">
-
-      <header className="header">
-
-        <h1>Instagram Analytics</h1>
-
-        <p>Follower & Following Relationship</p>
-
-      </header>
-
-      <UploadForm
-        onUpload={handleUpload}
-        loading={loading}
-        openGuide={() => openModal("guide")}
+    <div className="app-shell">
+      <Sidebar
+        page={page}
+        setPage={setPage}
+        open={mobileOpen}
+        setOpen={setMobileOpen}
       />
 
-      {error && (
-        <div className="error">
-          {error}
-        </div>
-      )}
+      <main className="main-area">
+        <Header
+          title={pageNames[page]}
+          setOpen={setMobileOpen}
+        />
 
-      {loading && (
-        <div className="loading">
-          Memproses ZIP...
-        </div>
-      )}
+        <div className="page-content">
+          <div className="welcome-heading">
+            <div>
+              <div className="eyebrow">
+                INSTAGRAM DATA ANALYTICS
+              </div>
 
-      {stats && (
-        <>
-          <StatsCards
-            stats={stats}
-            openModal={openModal}
-          />
+              <h1>
+                {page === "overview"
+                  ? "Pahami akunmu lebih dalam."
+                  : pageNames[page]}
+              </h1>
 
-          <div className="actions">
+              <p>
+                Analisis data Instagram milikmu dalam satu tempat.
+              </p>
+            </div>
 
-            <button
-              onClick={() => openModal("notback")}
-            >
-              Tidak Follow Balik
-            </button>
-
-            <button
-              onClick={() => openModal("younot")}
-            >
-              Kamu Tidak Follow Balik
-            </button>
-
+            {report && (
+              <button
+                className="secondary-button"
+                onClick={() => {
+                  setFile(null);
+                  setReport(null);
+                  setPage("overview");
+                }}
+              >
+                <X size={15} />
+                Ganti arsip
+              </button>
+            )}
           </div>
-        </>
-      )}
 
-      {/* FOLLOWERS */}
+          {!report ? (
+            <UploadArea
+              file={file}
+              setFile={setFile}
+              onAnalyze={handleAnalyze}
+              loading={loading}
+              progress={progress}
+              progressText={progressText}
+              error={error}
+            />
+          ) : (
+            <>
+              <div className="file-banner">
+                <FileArchive size={21} />
 
-      {stats && (
-        <ResultModal
-          title="Followers"
-          open={modal === "followers"}
-          onClose={closeModal}
-          users={stats.followersList}
-        />
-      )}
+                <div>
+                  <b>{report.fileName}</b>
+                  <small>
+                    {formatFileSize(report.fileSize)}
+                    {" · "}
+                    {formatDate(report.processedAt)}
+                  </small>
+                </div>
 
-      {/* FOLLOWING */}
+                <span>
+                  <Check size={13} />
+                  ANALISIS SELESAI
+                </span>
+              </div>
 
-      {stats && (
-        <ResultModal
-          title="Following"
-          open={modal === "following"}
-          onClose={closeModal}
-          users={stats.followingList}
-        />
-      )}
+              {renderPage()}
+            </>
+          )}
 
-      {/* MUTUAL */}
-
-      {stats && (
-        <ResultModal
-          title="Mutual"
-          open={modal === "mutual"}
-          onClose={closeModal}
-          users={stats.mutualList}
-        />
-      )}
-
-      {/* NOT FOLLOW BACK */}
-
-      {stats && (
-        <ResultModal
-          title="Tidak Follow Balik"
-          open={modal === "notback"}
-          onClose={closeModal}
-          users={stats.notFollowingBack}
-        />
-      )}
-
-      {/* YOU DON'T FOLLOW */}
-
-      {stats && (
-        <ResultModal
-          title="Kamu Tidak Follow Balik"
-          open={modal === "younot"}
-          onClose={closeModal}
-          users={stats.notFollowedByYou}
-        />
-      )}
-
-      <GuideModal
-        open={modal === "guide"}
-        onClose={closeModal}
-      />
-
-      <Footer />
-
+          <footer className="app-footer">
+            <span>© 2026 InstaTrack</span>
+            <span>Private · Local-first analytics</span>
+          </footer>
+        </div>
+      </main>
     </div>
   );
 }
-
-export default App;
